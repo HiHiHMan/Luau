@@ -47,3 +47,75 @@ local Gacha = rollItem()
 
 print("คุณได้รับ Gacha ระดับ: " .. Gacha)
 print("-------------------------------------------------------------------------")
+
+--------------------------------------------------------------------------
+--ใช้ ipairs: เมื่อคุณต้องการความ "เป๊ะ" ของลำดับ (เช่น อันดับใน Leaderboard) และมั่นใจว่าตารางไม่แหว่ง 
+--ใช้ pairs: เมื่อคุณต้องการความ "ครบถ้วน" โดยไม่สนว่ากุญแจจะเป็นชื่อหรือตัวเลข และไม่สนว่าจะเรียงกันไหม
+
+local myInventory = {"Sword", "Shield"} 
+local addItem = function(item) 
+    for index, value in ipairs(item) do
+        if #myInventory < 5 then
+            table.insert(myInventory, value)
+        else
+            print("กระเป๋าเต็มแล้ว ไม่สามารถเพิ่ม " .. value .. " ได้")
+        end
+    end
+end
+
+local newItems = {"Axe", "Bow", "Helmet", "Armor", "Boots", "Ring", "Amulet", "Gloves", "Cloak", "Belt"} 
+addItem(newItems)
+
+print("items :".. table.concat(myInventory, ", ")) 
+print("-------------------------------------------------------------------------")
+
+------------------------------------------------------------------------------------------------------------------
+local packItems = {"Axe", "Bow", "Helmet", "Armor", "Boots", "Ring", "Amulet", "Gloves", "Cloak", "Belt"} 
+local findItem = function(item)
+    for index, value in ipairs(packItems) do
+        if value == item then 
+            return index
+        end
+    end
+
+    return -1
+end 
+
+local checkItem = findItem("Axe")
+if checkItem ~= -1 then
+    print("มี Axe อยู่ในกระเป๋า")
+else
+    print("ไม่มี Axe อยู่ในกระเป๋า")
+end 
+
+table.remove(packItems, 1) 
+print("items :".. table.concat(packItems, ", "))
+
+print("-------------------------------------------------------------------------")
+
+-----------------------------------------------------------------------------------------------------
+ 
+local prices = {
+    ["Sword"] = 100,
+    ["Shield"] = 150,
+    ["Potion"] = 50
+}
+
+local player = {
+    Coin = 200,
+    isVIP =  true
+}
+
+local calPrice = function(item, isVIP)
+   if isVIP then
+        return prices[item] - (prices[item] * 0.20)
+   else
+        return prices[item]
+   end
+    
+end
+
+local priceForYou = calPrice("Sword", player.isVIP)
+print("ราคาสำหรับคุณ: " .. priceForYou)
+ 
+
